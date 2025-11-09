@@ -1,0 +1,141 @@
+# ======================================================
+# setup.ps1 - اسکریپت نصب پروژه
+# ======================================================
+
+Write-Host "شروع نصب..." -ForegroundColor Green
+
+# ساخت ساختار پوشه‌ها
+Write-Host "ساخت پوشه‌ها..." -ForegroundColor Yellow
+
+# app/
+New-Item -ItemType Directory -Force -Path "app/config"
+New-Item -ItemType Directory -Force -Path "app/core"
+New-Item -ItemType Directory -Force -Path "app/utils"
+New-Item -ItemType Directory -Force -Path "app/managers"
+New-Item -ItemType Directory -Force -Path "app/models"
+New-Item -ItemType Directory -Force -Path "app/features"
+New-Item -ItemType Directory -Force -Path "app/database"
+New-Item -ItemType Directory -Force -Path "app/unit"
+
+# data/
+New-Item -ItemType Directory -Force -Path "data/text"
+New-Item -ItemType Directory -Force -Path "data/config"
+New-Item -ItemType Directory -Force -Path "data/env"
+New-Item -ItemType Directory -Force -Path "data/sessions"
+New-Item -ItemType Directory -Force -Path "data/db"
+New-Item -ItemType Directory -Force -Path "data/logs"
+
+# ساخت __init__.py
+Write-Host "ساخت فایل‌های __init__.py..." -ForegroundColor Yellow
+
+New-Item -ItemType File -Force -Path "app/__init__.py"
+New-Item -ItemType File -Force -Path "app/config/__init__.py"
+New-Item -ItemType File -Force -Path "app/core/__init__.py"
+New-Item -ItemType File -Force -Path "app/utils/__init__.py"
+New-Item -ItemType File -Force -Path "app/managers/__init__.py"
+New-Item -ItemType File -Force -Path "app/models/__init__.py"
+New-Item -ItemType File -Force -Path "app/features/__init__.py"
+New-Item -ItemType File -Force -Path "app/database/__init__.py"
+New-Item -ItemType File -Force -Path "app/unit/__init__.py"
+
+# ساخت requirements.txt
+Write-Host "ساخت requirements.txt..." -ForegroundColor Yellow
+
+@"
+telethon==1.36.0
+asyncpg==0.29.0
+python-dotenv==1.0.0
+"@ | Out-File -FilePath "data/env/requirements.txt" -Encoding UTF8
+
+# ساخت .gitignore
+Write-Host "ساخت .gitignore..." -ForegroundColor Yellow
+
+@"
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+data/env/.venv/
+venv/
+ENV/
+env/
+
+# Sessions
+data/sessions/*.session
+data/sessions/__.session-journal
+
+# Logs
+data/logs/*.log
+
+# Database
+data/db/*.db
+data/db/*.sql
+
+# Config
+data/config/env.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+"@ | Out-File -FilePath ".gitignore" -Encoding UTF8
+
+# ساخت README (اختیاری - برای توضیح نحوه نصب)
+Write-Host "ساخت راهنمای سریع..." -ForegroundColor Yellow
+
+@"
+نصب و راه‌اندازی:
+
+1. ساخت Virtual Environment:
+   cd data/env
+   python -m venv .venv
+   .venv\Scripts\activate
+
+2. نصب Dependencies:
+   pip install -r requirements.txt
+
+3. تنظیم PostgreSQL:
+   - دیتابیس بسازید
+   - اطلاعات را در data/config/env.json وارد کنید
+
+4. تنظیم Telegram:
+   - API ID و Hash از my.telegram.org
+   - Bot Token از @BotFather
+   - اطلاعات را در data/config/env.json وارد کنید
+
+5. اجرا:
+   python launcher.py
+"@ | Out-File -FilePath "INSTALL.txt" -Encoding UTF8
+
+Write-Host "نصب کامل شد!" -ForegroundColor Green
+Write-Host ""
+Write-Host "مراحل بعدی:" -ForegroundColor Cyan
+Write-Host "1. تنظیم data/config/env.json"
+Write-Host "2. ساخت virtual environment در data/env/"
+Write-Host "3. نصب dependencies: pip install -r data/env/requirements.txt"
+Write-Host "4. اجرا: python launcher.py"
